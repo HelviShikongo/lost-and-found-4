@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Lost and Found App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .code-block {
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .class-def {
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin: 20px 0;
+        }
+        .method {
+            border-left: 4px solid #2ecc71;
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+        .enum {
+            border-left: 4px solid #9b59b6;
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+        .interface {
+            border-left: 4px solid #e74c3c;
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Campus Lost and Found Application</h1>
+        <p>This is a JavaFX application for managing lost and found items on a campus.</p>
+        
+        <div class="enum">
+            <h2>Enums</h2>
+            
+            <h3>ItemStatus</h3>
+            <div class="code-block">
+                <pre>public enum ItemStatus {
+    LOST, FOUND, CLAIMED, RETURNED
+}</pre>
+            </div>
+            
+            <h3>NotificationType</h3>
+            <div class="code-block">
+                <pre>public enum NotificationType {
+    MESSAGE, CLAIM, RESPONSE
+}</pre>
+            </div>
+        </div>
+        
+        <div class="interface">
+            <h2>Interfaces</h2>
+            
+            <h3>ItemRepository</h3>
+            <div class="code-block">
+                <pre>public interface ItemRepository {
+    boolean addItem(Item item) throws DatabaseException;
+    List&lt;Item&gt; searchItems(String keyword) throws DatabaseException;
+    List&lt;Item&gt; getItemsByUser(User user) throws DatabaseException;
+    boolean addMedia(int itemId, String mediaPath, boolean isVideo) throws DatabaseException;
+    List&lt;String&gt; getMediaForItem(int itemId) throws DatabaseException;
+    boolean addMessage(int itemId, int senderId, String message) throws DatabaseException;
+    List&lt;Message&gt; getMessagesForItem(int itemId) throws DatabaseException;
+    boolean addNotification(int userId, int itemId, String message, NotificationType type) throws DatabaseException;
+    List&lt;Notification&gt; getNotificationsForUser(int userId) throws DatabaseException;
+    boolean markNotificationAsRead(int notificationId) throws DatabaseException;
+    User getUserById(int id) throws DatabaseException;
+}</pre>
+            </div>
+        </div>
+        
+        <div class="class-def">
+            <h2>Classes</h2>
+            
+            <h3>DatabaseException</h3>
+            <div class="code-block">
+                <pre>public class DatabaseException extends Exception {
+    public DatabaseException(String message) {
+        super(message);
+    }
+    
+    public DatabaseException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}</pre>
+            </div>
+            
+            <h3>User</h3>
+            <div class="code-block">
+                <pre>public class User {
+    private int id;
+    private String username;
+    private String password;
+    private String email;
+    private String phone;
+    private String role;
+    
+    // Constructor, getters, equals, hashCode, etc.
+}</pre>
+            </div>
+            
+            <h3>Message</h3>
+            <div class="code-block">
+                <pre>public class Message {
+    private int id;
+    private int itemId;
+    private User sender;
+    private String content;
+    private LocalDate timestamp;
+    
+    // Constructor, getters, toString
+}</pre>
+            </div>
+            
+            <h3>Notification</h3>
+            <div class="code-block">
+                <pre>public class Notification {
+    private int id;
+    private int userId;
+    private int itemId;
+    private String message;
+    private NotificationType type;
+    private boolean read;
+    private LocalDate timestamp;
+    
+    // Constructor, getters
+}</pre>
+            </div>
+            
+            <h3>Item (Abstract)</h3>
+            <div class="code-block">
+                <pre>public abstract class Item {
+    private int id;
+    private String name;
+    private String description;
+    private String location;
+    private LocalDate date;
+    private User reporter;
+    private ItemStatus status;
+    
+    // Constructor, getters, abstract method getType()
+}</pre>
+            </div>
+            
+            <h3>LostItem</h3>
+            <div class="code-block">
+                <pre>public class LostItem extends Item {
+    private double reward;
+    
+    // Constructor, getters, overrides
+}</pre>
+            </div>
+            
+            <h3>FoundItem</h3>
+            <div class="code-block">
+                <pre>public class FoundItem extends Item {
+    private String storageLocation;
+    
+    // Constructor, getters, overrides
+}</pre>
+            </div>
+            
+            <h3>Database</h3>
+            <div class="code-block">
+                <pre>public class Database implements ItemRepository {
+    // Implements all interface methods
+    // Handles database connection and all CRUD operations
+}</pre>
+            </div>
+            
+            <h3>CampusLostAndFoundApp (Main Application)</h3>
+            <div class="code-block">
+                <pre>public class CampusLostAndFoundApp extends Application {
+    // Main JavaFX application with all UI components
+    // Includes login screen, main screen with tabs, forms, etc.
+}</pre>
+            </div>
+        </div>
+        
+        <h2>Application Features</h2>
+        <ul>
+            <li>User authentication (login/registration)</li>
+            <li>Reporting lost and found items</li>
+            <li>Searching for items</li>
+            <li>Viewing your reported items</li>
+            <li>Messaging system between users</li>
+            <li>Notification system</li>
+            <li>Media upload (photos/videos) for items</li>
+            <li>Database persistence</li>
+        </ul>
+        
+        <h2>UI Screens</h2>
+        <ul>
+            <li>Login Screen - Authentication for users</li>
+            <li>Registration Screen - New user signup</li>
+            <li>Main Screen with Tabs:
+                <ul>
+                    <li>Report Lost Item</li>
+                    <li>Report Found Item</li>
+                    <li>Search Items</li>
+                    <li>My Reported Items</li>
+                    <li>Messages</li>
+                    <li>Notifications</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
